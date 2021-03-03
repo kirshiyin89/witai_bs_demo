@@ -3,6 +3,8 @@
 
 ## This project is a demo for my technical article on Medium.com
 
+https://medium.com/r/?url=https%3A%2F%2Fbetterprogramming.pub%2Fcreate-your-own-book-recommendation-application-using-wit-ai-and-beautiful-soup-8d0343288d28
+
 
 
 ## **How to start this project**
