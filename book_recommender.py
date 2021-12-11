@@ -20,24 +20,21 @@ def recognize_speech(filename, audio_length):
     
     # recond an audio file for a given duration in seconds
     record_audio(audio_length, filename)
-    
+
     audio = read_audio(filename)
-    
+
     headers = {'authorization': 'Bearer ' + WIT_ACCESS_TOKEN,
                'Content-Type': 'audio/wav'}
 
     resp = requests.post(WIT_API_ENDPOINT, headers = headers,
                          data = audio)
-    
-    data = json.loads(resp.content)
+
     #print(data)
-    return data
+    return json.loads(resp.content)
  
 def analyze_speech(recorded_speech):
     book_types = ""
     searched_book_type = ""
-    result_genres = []
-    
     if 'book_keywords:book_keywords' in recorded_speech['entities']:
         book_types = recorded_speech['entities']['book_keywords:book_keywords']
 
@@ -46,11 +43,11 @@ def analyze_speech(recorded_speech):
            searched_book_type = key['value']
 
 
-    for category in CATEGORIES:
-        if searched_book_type == category['category']:
-           result_genres.append(category['genre'])
-           
-    return result_genres   
+    return [
+        category['genre']
+        for category in CATEGORIES
+        if searched_book_type == category['category']
+    ]   
     
 def get_book_recommendations(genre):
     book_site_response = requests.get(BOOK_API_ENDPOINT + genre)
